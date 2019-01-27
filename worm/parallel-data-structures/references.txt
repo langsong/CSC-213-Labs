@@ -1,0 +1,17 @@
+Parallel DatA Structures Lab References
+Garrett Wang & Dennis Chan
+
+1. Concurrent List Data Structure, Figure 29.8, P.8
+     Locked-based Concurrent Data Structures, Section 29
+     Apraci-Dusseau, Remzi. "Operating Systems: Three Easy Pieces."
+	
+
+2. Queue Data Structure, Figure 29.9, P.10
+     Locked-based Concurrent Data Structures, Section 29
+     Apraci-Dusseau, Remzi. "Operating Systems: Three Easy Pieces."
+
+
+3. Hashtable Data Structure, Figure 29.10, P.11
+     Locked-based Concurrent Data Structures, Section 29
+     Apraci-Dusseau, Remzi. "Operating Systems: Three Easy Pieces."
+
