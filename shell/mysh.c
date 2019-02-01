@@ -13,7 +13,7 @@
 
 typedef struct cmd {
   char *command;
-  int flag; // 0 for '&', 1 for ';', and 2 for the end of commands
+  int flag;  // 0 for '&', 1 for ';', and 2 for the end of commands
 } cmd;
 
 void run_command(char **commands, bool is_block) {
@@ -23,10 +23,10 @@ void run_command(char **commands, bool is_block) {
     exit(0);
   } else {
     pid_t child_pid = fork();
-    if (child_pid) { // parent process
+    if (child_pid) {  // parent process
       if (is_block) {
         int wstatus;
-        wait(&wstatus);
+        waitpid(child_pid, &wstatus, 0);
         if (!WIFEXITED(wstatus)) {
           fprintf(stderr, "Child process did not exit normally.\n");
         } else {
@@ -34,7 +34,7 @@ void run_command(char **commands, bool is_block) {
                  WEXITSTATUS(wstatus));
         }
       }
-    } else { // child process
+    } else {  // child process
       if (!execvp(commands[0], commands)) {
         fprintf(stderr, "Command not found.\n");
         exit(1);
@@ -53,10 +53,11 @@ cmd *print_commands(char *line) {
     char *end_pos = strpbrk(pos, "&;");
 
     if (end_pos == NULL) {
-      char *temp = strdup(pos); // the last command ends with a '\n' and we need
-                                // to get rid of it
+      char *temp =
+          strdup(pos);  // the last command ends with a '\n' and we need
+                        // to get rid of it
       temp[strlen(temp) - 1] = '\0';
-      if (strlen(temp) != 0) { // if it is not an empty command
+      if (strlen(temp) != 0) {  // if it is not an empty command
         cmd c = {.command = temp, .flag = 1};
         cmds[index++] = c;
       }
@@ -101,8 +102,8 @@ int main(int argc, char **argv) {
     }
   }
 
-  char *line = NULL;    // Pointer that will hold the line we read in
-  size_t line_size = 0; // The number of bytes available in line
+  char *line = NULL;     // Pointer that will hold the line we read in
+  size_t line_size = 0;  // The number of bytes available in line
   int wstatus;
   pid_t child_pid;
   // Loop forever
@@ -125,7 +126,7 @@ int main(int argc, char **argv) {
 
     } else {
       cmd *cmds = print_commands(line);
-      int i = 0; // index for cmds
+      int i = 0;  // index for cmds
       while (cmds[i].flag != 2) {
         char *cur_cmd = cmds[i].command;
         char *commands[MAX_ARGS + 1];
@@ -136,25 +137,27 @@ int main(int argc, char **argv) {
           token = strtok(NULL, " ");
         }
         commands[index] = NULL;
-        if (cmds[i].flag) { // if the command ends with a semicolon
+        if (cmds[i].flag) {  // if the command ends with a semicolon
           run_command(commands, true);
-        } else { // if the command ends with an ampsend
+        } else {  // if the command ends with an ampsend
           run_command(commands, false);
         }
-        i++;
-      }
 
-      child_pid = waitpid(0, &wstatus, WNOHANG);
-      while (child_pid != -1 && child_pid != 0) {
-        printf("Child process %d exited with status %d\n", child_pid,
-               WEXITSTATUS(wstatus));
+        // collecting child processes
         child_pid = waitpid(0, &wstatus, WNOHANG);
+        while (child_pid != -1 && child_pid != 0) {
+          printf("Child process %d exited with status %d\n", child_pid,
+                 WEXITSTATUS(wstatus));
+          child_pid = waitpid(0, &wstatus, WNOHANG);
+        }
+
+        i++;
       }
 
       free(cmds);
     }
 
-    printf("Received command: %s\n", line);
+    /* printf("Received command: %s\n", line); */
   }
 
   // If we read in at least one line, free this space
