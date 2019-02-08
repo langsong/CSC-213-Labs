@@ -3,7 +3,8 @@
 
 #include <signal.h>
 
-// This defines the size of a chunk of data we can request or copy. Must be a multiple of page size.
+// This defines the size of a chunk of data we can request or copy. Must be a
+// multiple of page size.
 #define CHUNKSIZE 0x10000
 
 // This is a struct to keep copies of all the pages that are using lazy copy
@@ -20,7 +21,8 @@ void chunk_startup();
 // This function should return a new chunk of memory for use
 void* chunk_alloc();
 
-// This function should return a copy of a chunk created with eager (normal) copying
+// This function should return a copy of a chunk created with eager (normal)
+// copying
 void* chunk_copy_eager(void* chunk);
 
 // This function should return a copy of a chunk created with lazy copying
