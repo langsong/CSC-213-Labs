@@ -6,8 +6,8 @@
 #include <assert.h>
 #include <curses.h>
 #include <pthread.h>
-#include <ucontext.h>
 #include <stdbool.h>
+#include <ucontext.h>
 
 #include "util.h"
 
@@ -45,37 +45,36 @@ typedef struct mythread_info {
   //      read input, you will need to save it here so it can be returned.
 } mythread_info_t;
 
-int current_thread = 0; //< The handle of the currently-executing thread
-int num_threads = 1;    //< The number of threads created so far
-mythread_info_t threads[MAX_THREADS]; //< Information for every thread
+int current_thread = 0;  //< The handle of the currently-executing thread
+int num_threads = 1;     //< The number of threads created so far
+mythread_info_t threads[MAX_THREADS];  //< Information for every thread
 
 void schedule(mythread_t t) {
   mythread_info_t cur_thread = threads[t];
   mythread_t index = (t + 1) % num_threads;
-  while(true) {
-    if(threads[index].status == ready) {
+  while (true) {
+    if (threads[index].status == ready) {
       threads[index].status = is_running;
       current_thread = index;
-      printf("here\n");
       swapcontext(&cur_thread.context, &threads[index].context);
       return;
-    } else if(threads[index].status == blocked_on_sleep){
-      if(time_ms() >= threads[index].wake_time) {
+    } else if (threads[index].status == blocked_on_sleep) {
+      if (time_ms() >= threads[index].wake_time) {
         threads[index].status = is_running;
         current_thread = index;
         swapcontext(&(cur_thread.context), &(threads[index].context));
         return;
       }
-    } else if(threads[index].status == blocked_on_join) {
-      if(t == threads[index].join_thread) {
+    } else if (threads[index].status == blocked_on_join) {
+      if (t == threads[index].join_thread) {
         threads[index].status = is_running;
         current_thread = index;
         swapcontext(&(cur_thread.context), &(threads[index].context));
         return;
       }
-    } else if(threads[index].status == blocked_on_input) {
+    } else if (threads[index].status == blocked_on_input) {
       int res = getch();
-      if(res != ERR) {
+      if (res != ERR) {
         threads[index].status = is_running;
         current_thread = index;
         threads[index].input = res;
@@ -133,7 +132,8 @@ void mythread_create(mythread_t* handle, mythread_fn_t fn) {
   threads[index].context.uc_stack.ss_sp = malloc(STACK_SIZE);
   threads[index].context.uc_stack.ss_size = STACK_SIZE;
 
-  // Now we're going to set up *another* context. This one will execute when our new thread exits.
+  // Now we're going to set up *another* context. This one will execute when our
+  // new thread exits.
   getcontext(&threads[index].exit_context);
   threads[index].exit_context.uc_stack.ss_sp = malloc(STACK_SIZE);
   threads[index].exit_context.uc_stack.ss_size = STACK_SIZE;
@@ -141,7 +141,6 @@ void mythread_create(mythread_t* handle, mythread_fn_t fn) {
   // To get our new thread to switch to the exiting context when the thread
   // function returns, we set it in the uc_link field of the context
   threads[index].context.uc_link = &threads[index].exit_context;
-
 
   // Set up the context to execute the thread function
   makecontext(&threads[index].context, fn, 0);
@@ -168,7 +167,8 @@ void mythread_join(mythread_t handle) {
  */
 void mythread_sleep(size_t ms) {
   // TODO: Block this thread until the requested time has elapsed.
-  // Hint: Record the time the thread should wake up instead of the time left for it to sleep. The bookkeeping is easier this way.
+  // Hint: Record the time the thread should wake up instead of the time left
+  // for it to sleep. The bookkeeping is easier this way.
   threads[current_thread].status = blocked_on_sleep;
   threads[current_thread].wake_time = time_ms() + ms;
   schedule(current_thread);
