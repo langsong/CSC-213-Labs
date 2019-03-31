@@ -1,0 +1,156 @@
+[
+    {
+        "arguments": [
+            "/Library/Developer/CommandLineTools/usr/bin/clang++", 
+            "-c", 
+            "-isystem", 
+            "../deps/gtest/googletest/", 
+            "-isystem", 
+            "../deps/gtest/googletest/include/", 
+            "obj/tests.o", 
+            "obj/dict.o", 
+            "obj/list.o", 
+            "-o", 
+            "partC", 
+            "../deps/gtest/googletest/src/gtest_main.cc"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "../deps/gtest/googletest/src/gtest_main.cc"
+    }, 
+    {
+        "arguments": [
+            "clang++", 
+            "-c", 
+            "-isystem", 
+            "../deps/gtest/googletest/", 
+            "-isystem", 
+            "../deps/gtest/googletest/include/", 
+            "obj/tests.o", 
+            "obj/dict.o", 
+            "obj/list.o", 
+            "-o", 
+            "partC", 
+            "../deps/gtest/googletest/src/gtest-all.cc"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "../deps/gtest/googletest/src/gtest-all.cc"
+    }, 
+    {
+        "arguments": [
+            "clang", 
+            "-c", 
+            "-g", 
+            "--std=c11", 
+            "-o", 
+            "obj/dict.o", 
+            "dict.c"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "dict.c"
+    }, 
+    {
+        "arguments": [
+            "/Library/Developer/CommandLineTools/usr/bin/clang", 
+            "-c", 
+            "-g", 
+            "--std=c11", 
+            "-o", 
+            "obj/list.o", 
+            "list.c"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "list.c"
+    }, 
+    {
+        "arguments": [
+            "clang", 
+            "-c", 
+            "-g", 
+            "--std=c11", 
+            "-o", 
+            "obj/list.o", 
+            "list.c"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "list.c"
+    }, 
+    {
+        "arguments": [
+            "/Library/Developer/CommandLineTools/usr/bin/clang", 
+            "-c", 
+            "-g", 
+            "--std=c11", 
+            "-o", 
+            "obj/dict.o", 
+            "dict.c"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "dict.c"
+    }, 
+    {
+        "arguments": [
+            "clang++", 
+            "-c", 
+            "-isystem", 
+            "../deps/gtest/googletest/", 
+            "-isystem", 
+            "../deps/gtest/googletest/include/", 
+            "obj/tests.o", 
+            "obj/dict.o", 
+            "obj/list.o", 
+            "-o", 
+            "partC", 
+            "../deps/gtest/googletest/src/gtest_main.cc"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "../deps/gtest/googletest/src/gtest_main.cc"
+    }, 
+    {
+        "arguments": [
+            "/Library/Developer/CommandLineTools/usr/bin/clang++", 
+            "-c", 
+            "-isystem", 
+            "../deps/gtest/googletest/", 
+            "-isystem", 
+            "../deps/gtest/googletest/include/", 
+            "obj/tests.o", 
+            "obj/dict.o", 
+            "obj/list.o", 
+            "-o", 
+            "partC", 
+            "../deps/gtest/googletest/src/gtest-all.cc"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "../deps/gtest/googletest/src/gtest-all.cc"
+    }, 
+    {
+        "arguments": [
+            "/Library/Developer/CommandLineTools/usr/bin/clang++", 
+            "-c", 
+            "-g", 
+            "--std=c++11", 
+            "-isystem", 
+            "../deps/gtest/googletest/include/", 
+            "-o", 
+            "obj/tests.o", 
+            "tests.cc"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "tests.cc"
+    }, 
+    {
+        "arguments": [
+            "clang++", 
+            "-c", 
+            "-g", 
+            "--std=c++11", 
+            "-isystem", 
+            "../deps/gtest/googletest/include/", 
+            "-o", 
+            "obj/tests.o", 
+            "tests.cc"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/parallel-data-structures/partC", 
+        "file": "tests.cc"
+    }
+]

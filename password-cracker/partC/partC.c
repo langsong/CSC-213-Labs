@@ -15,10 +15,14 @@
 #define TOTAL_PASSWORDS (pow(26.0, PASSWORD_LENGTH))
 
 // Use this struct to pass arguments to our threads
-typedef struct thread_args { int arg; } thread_args_t;
+typedef struct thread_args {
+  int arg;
+} thread_args_t;
 
 // use this struct to receive results from our threads
-typedef struct thread_result { int result; } thread_result_t;
+typedef struct thread_result {
+  int result;
+} thread_result_t;
 
 typedef struct password_entry {
   char username[MAX_USERNAME_LENGTH + 1];
@@ -57,7 +61,6 @@ void *thread_fn(void *void_args) {
 }
 
 int main(int argc, char **argv) {
-
   if (argc != 2) {
     fprintf(stderr, "Usage: %s <path to password directory file>\n", argv[0]);
     exit(1);
@@ -133,7 +136,7 @@ void crack_passwords(char *plaintext) {
   password_entry_t *current = passwords;
   bool all_true = true;
   while (current != NULL) {
-    if (!current->cracked) { // Has not been cracked yet
+    if (!current->cracked) {  // Has not been cracked yet
       if (memcmp(current->password_md5, password_hash, MD5_DIGEST_LENGTH) ==
           0) {
         printf("%s ", current->username);
@@ -211,8 +214,7 @@ password_entry_t *read_password_file(const char *filename) {
  */
 int md5_string_to_bytes(const char *md5_string, uint8_t *bytes) {
   // Check for a valid MD5 string
-  if (strlen(md5_string) != 2 * MD5_DIGEST_LENGTH)
-    return -1;
+  if (strlen(md5_string) != 2 * MD5_DIGEST_LENGTH) return -1;
 
   // Start our "cursor" at the start of the string
   const char *pos = md5_string;
@@ -221,8 +223,7 @@ int md5_string_to_bytes(const char *md5_string, uint8_t *bytes) {
   for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++) {
     // Read one byte (two characters)
     int rc = sscanf(pos, "%2hhx", &bytes[i]);
-    if (rc != 1)
-      return -1;
+    if (rc != 1) return -1;
 
     // Move the "cursor" to the next hexadecimal byte
     pos += 2;

@@ -1,0 +1,32 @@
+[
+    {
+        "arguments": [
+            "clang", 
+            "-c", 
+            "-g", 
+            "-O2", 
+            "--std=c11", 
+            "-I/usr/local/opt/openssl/include", 
+            "-o", 
+            "obj/partC.o", 
+            "partC.c"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/password-cracker/partC", 
+        "file": "partC.c"
+    }, 
+    {
+        "arguments": [
+            "/Library/Developer/CommandLineTools/usr/bin/clang", 
+            "-c", 
+            "-g", 
+            "-O2", 
+            "--std=c11", 
+            "-I/usr/local/opt/openssl/include", 
+            "-o", 
+            "obj/partC.o", 
+            "partC.c"
+        ], 
+        "directory": "/Users/Garrett/Documents/1_CS/Project/csc213_labs/password-cracker/partC", 
+        "file": "partC.c"
+    }
+]
