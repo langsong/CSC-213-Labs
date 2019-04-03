@@ -1,58 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define BLOCK_SIZE 32 
-#define N 10240
+#define BLOCK_SIZE 32
+#define N 321
 
-__global__ void sumValues(int* sum, int* numbers, int length) {
+__global__ void sumValues(int *arr, int *sum) {
   int index = BLOCK_SIZE * blockIdx.x + threadIdx.x;
-  atomicAdd()
+  __shared__ float temp[BLOCK_SIZE];
+  if (index < N) {
+    temp[threadIdx.x] = arr[index] * arr[index];
+    __syncthreads();
+    // The thread with index zero will sum up the values in temp
+    if (threadIdx.x == 0) {
+      int s = 0;
+      for (int i = 0; i < BLOCK_SIZE; i++) {
+        s += temp[i];
+      }
+
+      // Add the sum for this block to the
+      atomicAdd(sum, s);
+    }
+  }
 }
 
-
 int main() {
-  int* cpu_arr = (int*)malloc(N * sizeof(int));
-  if(!cpu_arr) {
-    perror("malloc");
-    exit(1);
-  }  
-
-  for(int i = 0; i < N; i++) {
-    cpu_arr[i] = i;
-  }
-
-  int* gpu_arr;
-
-  if(cudaMalloc(&gpu_arr, sizeof(int) * N) != cudaSuccess) {
-    fprintf(stderr, "Failed to allocate array on GPU\n");
-    exit(2);
-  }
-
-  if(cudaMemcpy(gpu_arr, cpu_arr, sizeof(int) * N, cudaMemcpyHostToDevice) != cudaSuccess) {
-    fprintf(stderr, "Failed to copy array to the GPU\n");
-  }
-
+  int *arr;
   int *sum;
-  if(cudaMalloc(&sum, sizeof(int)) != cudaSuccess) {
-    fprintf(stderr, "Failed to allocate array on GPU\n");
-    exit(2);
+
+  // Allocate Unified Memory -- accessible from CPU or GPU
+  cudaMallocManaged(&arr, N * sizeof(int));
+  cudaMallocManaged(&sum, sizeof(int));
+
+  for (int i = 0; i < N; i++) {
+    arr[i] = i;
   }
 
-  sumValues<<<N/BLOCK_SIZE, BLOCK_SIZE>>>(sum, gpu_arr, N);
+  int block_number =
+      N / BLOCK_SIZE * BLOCK_SIZE == N ? N / BLOCK_SIZE : N / BLOCK_SIZE + 1;
+  sumValues<<<block_number, BLOCK_SIZE>>>(arr, sum);
   cudaDeviceSynchronize();
 
-  if(cudaMemcpy(cpu_arr, gpu_difference, sizeof(int) * N, cudaMemcpyDeviceToHost) != cudaSuccess) {
-    fprintf(stderr, "Failed to copy array to the CPU\n");
-  }
-  
-  for(int i = 0; i < N; i++) {
-    printf("%d\n", cpu_arr[i]);
-  }
-
-  free(cpu_arr);
-  cudaFree(gpu_arr);
-  cudaFree(gpu_difference);
+  printf("sum = %d\n", *sum);
 
   return 0;
-
 }
